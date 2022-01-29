@@ -1,0 +1,45 @@
+.selectedContent {
+    margin-top: 100px;
+    color: aqua;
+    background-color: blueviolet;
+    position: relative;
+}
+
+.selectedContent::before, 
+.selectedContent::after {
+    --scale: 0;
+    --arrow-size: 10px;
+    --tooltip-color: #333;
+    
+    position: absolute;
+    top: -0.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 150ms transform;
+    transform-origin: bottom;
+}
+
+.selectedContent::before {
+    --translate-y: calc(-100% - var(--arrow-size));
+    content: attr(data-tooltip);
+    color: white;
+    padding: .5rem;
+    border-radius: .3rem;
+    height: 30px;
+    max-width: 200px;
+    background-color: var(--tooltip-color);
+}
+
+.selectedContent:hover::before,
+.selectedContent:hover::after {
+    --scale: 1;
+    
+}
+
+.selectedContent::after {
+    --translate-y: calc( -1 * var(--arrow-size));
+    content: "";
+    border: var(--arrow-size) solid transparent;
+    border-top-color: var(--tooltip-color);
+    transform-origin: top center;
+}
