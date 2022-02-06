@@ -178,18 +178,24 @@ function nodeFromXPath(xpath, root = document.body) {
 }
 
 
-var myDate = new Date();
-console.log(myDate);
-
-/*characters to be escaped [.*+?^${}()|[\]\\]*/
-
 const quotes = [];
 
 /*This function push what the user select into the quotes array */
-function collectSelectedQuotes() {
+function showTooltip(e) {
+    const quote = window.getSelection().toString();
+    if (quote.length <= 0) {
+        tooltipDisappear();
+        return;
+    }
+
+    tooltipAppear(e.pageX, e.pageY);
+}
+
+function getAnchor() {
     let selectedText = window.getSelection();
     console.log(selectedText);
     let text = selectedText.anchorNode.parentElement.textContent;
+    /*characters to be escaped [.*+?^${}()|[\]\\]*/
     let quote = selectedText.toString().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     console.log(`parentParagraph: ${text}, selected: ${quote}`);
     let anchorOffset = selectedText.anchorOffset;
@@ -200,16 +206,13 @@ function collectSelectedQuotes() {
     // console.log("focusOffset", focusOffset);
     // console.log("offset", offset);
 
-
-
     // var before = text.substring(selectedText.anchorOffset - 20, selectedText.anchorOffset);
     // var after = text.substring(selectedText.extentOffset, selectedText.extentOffset + 20);
     // before = before.length >= 1 ? before : null;
     // after = after.length >= 1 ? after : null;
     // console.log(`text: ${text} before: ${before} after: ${after}`);
 
-
-    let anchor = {
+    return {
         // pageid = 1,
         // userid = 1,
         context: text,
@@ -219,8 +222,15 @@ function collectSelectedQuotes() {
         offset,
         xpath: xpathFromNode(selectedText.anchorNode.parentElement, document.body),
     }
+}
+
+function addHightlight() {
+    console.log('activated!');
+    const anchor = getAnchor();
     quotes.push(anchor);
     console.log(quotes);
+    tooltipDisappear();
+
     renderQuote();
 }
 
@@ -248,6 +258,19 @@ function renderQuote() {
 
 
 window.addEventListener('mouseup', e => {
-    collectSelectedQuotes();
+    showTooltip(e);
 }
 )
+
+
+function tooltipAppear(x, y) {
+    const tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'flex';
+    tooltip.style.left = x - tooltip.clientWidth / 2 + 'px';
+    tooltip.style.top = y - tooltip.clientHeight * 1.5 + 'px';
+}
+
+function tooltipDisappear() {
+    const tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
+}

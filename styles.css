@@ -1,49 +1,57 @@
-.selectedContent {
-    margin-top: 100px;
-    color: aqua;
-    background-color: blueviolet;
-    position: relative;
-}
+/*Blog CSS*/
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f1f1f1;
+    line-height: 1.6;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
 
-.selectedContent::before, 
-.selectedContent::after {
-    --scale: 0;
-    --arrow-size: 10px;
-    --tooltip-color: #333;
-    
+
+/*Tooltip CSS*/
+#tooltip {
+    display: none;
     position: absolute;
-    top: -0.25rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
-    transition: 150ms transform;
-    transform-origin: bottom;
 }
 
-.selectedContent::before {
-    --translate-y: calc(-100% - var(--arrow-size));
-    content: attr(data-tooltip);
-    color: white;
-    padding: .5rem;
-    border-radius: .3rem;
-    height: 30px;
-    max-width: 200px;
+.tooltip-content {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    --tooltip-color: #333;
     background-color: var(--tooltip-color);
+    padding: 0px;
+    border-radius: 4px;
+    width: 130px;
+    height: 38px;
+    /* opacity: 0;
+    pointer-events: none; */
+    z-index: 2;
+}
+.tooltip-content .arrow{
+    position: absolute;
+    border: 10px solid transparent;
+    border-bottom-color: var(--tooltip-color);
+    top: 58px;
+    left: 50%;
+    transform:translate(-50%, -100%) rotate(180deg);
+  }
+
+.tooltip-content {
+    background-color: var(--tooltip-color);
+    justify-content: space-around;
+    align-items: center;
+}
+button {
+    color:white;
+    background-color: var(--tooltip-color);
+    border: 0;
+    padding: 0;
+    margin: 5px;
+    cursor: pointer;
 }
 
-.selectedContent:hover::before,
-.selectedContent:hover::after {
-    --scale: 1;
-    
-}
 
-.selectedContent::after {
-    --translate-y: calc( -1 * var(--arrow-size));
-    content: "";
-    border: var(--arrow-size) solid transparent;
-    border-top-color: var(--tooltip-color);
-    transform-origin: top center;
-}
 
-mark:hover {
-    color:aliceblue;
-}
