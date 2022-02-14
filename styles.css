@@ -39,7 +39,7 @@ body {
     transform:translate(-50%, -100%) rotate(180deg);
   }
 
-.tooltip-content {
+.tooltip-content{
     background-color: var(--tooltip-color);
     justify-content: space-around;
     align-items: center;
@@ -54,4 +54,7 @@ button {
 }
 
 
-
+.markLine {
+    background-color: bisque;
+    cursor: pointer;
+}
